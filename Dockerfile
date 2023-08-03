@@ -27,25 +27,20 @@ RUN echo $TELEGRAM_TOKEN > /content/text-generation-webui/extensions/telegram_bo
 RUN sed -i '/# Get current acheong08 EdgeGPT version installed/,/print("Version not found.")/ s/^/#/' /content/text-generation-webui/extensions/edgegpt/script.py
 
 RUN echo "\
-    \nhttps://huggingface.co/TheBloke/WizardLM-33B-V1-0-Uncensored-SuperHOT-8K-GPTQ/resolve/main/wizardlm-33b-v1.0-uncensored-superhot-8k-GPTQ-4bit--1g.act.order.safetensors \n dir=/content/text-generation-webui/models/WizardLM-33B-V1-0-Uncensored-SuperHOT-8K-GPTQ \n out=wizardlm-33b-v1.0-uncensored-superhot-8k-GPTQ-4bit--1g.act.order.safetensors \
-    \nhttps://huggingface.co/TheBloke/WizardLM-33B-V1-0-Uncensored-SuperHOT-8K-GPTQ/raw/main/special_tokens_map.json \n dir=/content/text-generation-webui/models/WizardLM-33B-V1-0-Uncensored-SuperHOT-8K-GPTQ \n out=special_tokens_map.json \
-    \nhttps://huggingface.co/TheBloke/WizardLM-33B-V1-0-Uncensored-SuperHOT-8K-GPTQ/resolve/main/tokenizer.model \n dir=/content/text-generation-webui/models/WizardLM-33B-V1-0-Uncensored-SuperHOT-8K-GPTQ \n out=tokenizer.model \
-    \nhttps://huggingface.co/TheBloke/WizardLM-33B-V1-0-Uncensored-SuperHOT-8K-GPTQ/raw/main/tokenizer_config.json \n dir=/content/text-generation-webui/models/WizardLM-33B-V1-0-Uncensored-SuperHOT-8K-GPTQ \n out=tokenizer_config.json \
-    \nhttps://huggingface.co/TheBloke/WizardLM-33B-V1-0-Uncensored-SuperHOT-8K-GPTQ/raw/main/config.json \n dir=/content/text-generation-webui/models/WizardLM-33B-V1-0-Uncensored-SuperHOT-8K-GPTQ \n out=config.json \
-    \nhttps://huggingface.co/TheBloke/WizardLM-33B-V1-0-Uncensored-SuperHOT-8K-GPTQ/raw/main/generation_config.json \n dir=/content/text-generation-webui/models/WizardLM-33B-V1-0-Uncensored-SuperHOT-8K-GPTQ \n out=generation_config.json \
+    \nhttps://huggingface.co/TheBloke/vicuna-13B-v1.5-16K-GPTQ/resolve/main/gptq_model-8bit--1g.safetensors \n dir=/content/text-generation-webui/models/vicuna-13B-v1.5-16K-GPTQ \n out=gptq_model-8bit--1g.safetensors \
+    \nhttps://huggingface.co/TheBloke/vicuna-13B-v1.5-16K-GPTQ/raw/main/special_tokens_map.json \n dir=/content/text-generation-webui/models/vicuna-13B-v1.5-16K-GPTQ \n out=special_tokens_map.json \
+    \nhttps://huggingface.co/TheBloke/vicuna-13B-v1.5-16K-GPTQ/resolve/main/tokenizer.model \n dir=/content/text-generation-webui/models/vicuna-13B-v1.5-16K-GPTQ \n out=tokenizer.model \
+    \nhttps://huggingface.co/TheBloke/vicuna-13B-v1.5-16K-GPTQ/raw/main/tokenizer_config.json \n dir=/content/text-generation-webui/models/vicuna-13B-v1.5-16K-GPTQ \n out=tokenizer_config.json \
+    \nhttps://huggingface.co/TheBloke/vicuna-13B-v1.5-16K-GPTQ/raw/main/config.json \n dir=/content/text-generation-webui/models/vicuna-13B-v1.5-16K-GPTQ \n out=config.json \
+    \nhttps://huggingface.co/TheBloke/vicuna-13B-v1.5-16K-GPTQ/raw/main/generation_config.json \n dir=/content/text-generation-webui/models/vicuna-13B-v1.5-16K-GPTQ \n out=generation_config.json \
     \n" | aria2c --console-log-level=error -c -x 16 -s 16 -k 1M  --input-file -
 
 # uncomment if you want to use local files
-#COPY wizardlm-33b-v1.0-uncensored-superhot-8k-GPTQ-4bit--1g.act.order.safetensors /content/text-generation-webui/models/WizardLM-33B-V1-0-Uncensored-SuperHOT-8K-GPTQ
+#COPY gptq_model-8bit--1g.safetensors /content/text-generation-webui/models/vicuna-13B-v1.5-16K-GPTQ
 #COPY text_2.pt /root/.cache/suno/bark_v0/
 #COPY fine_2.pt /root/.cache/suno/bark_v0/
 #COPY coarse_2.pt /root/.cache/suno/bark_v0/
 
-# if more than 24gb vram
-# --max_seq_len 8192 --compress_pos_emb 4
-
-CMD cd text-generation-webui && python server.py --listen --listen-host 127.0.0.1 --chat --extensions openai sd_api_pictures send_pictures whisper_stt edgegpt telegram_bot --load-in-8bit --loader exllama --max_seq_len 4096 --compress_pos_emb 2 --model /content/text-generation-webui/models/WizardLM-33B-V1-0-Uncensored-SuperHOT-8K-GPTQ
-
-# disabled extensions: bark_tts
+CMD cd text-generation-webui && python server.py --listen --listen-host 127.0.0.1 --chat --extensions openai bark_tts sd_api_pictures send_pictures whisper_stt edgegpt telegram_bot --load-in-8bit --loader exllama --max_seq_len 4096 --compress_pos_emb 2 --model /content/text-generation-webui/models/vicuna-13B-v1.5-16K-GPTQ
 
 EXPOSE 7860
