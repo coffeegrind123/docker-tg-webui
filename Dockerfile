@@ -22,10 +22,10 @@ RUN git clone https://github.com/wsippel/bark_tts /content/text-generation-webui
 
 RUN echo $TELEGRAM_TOKEN > /content/text-generation-webui/extensions/telegram_bot/configs/telegram_token.txt
 
-#RUN aria2c --console-log-level=error -c -s 16 -k 1M https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF/resolve/main/mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf -d /content/text-generation-webui/models -o mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf
+RUN aria2c --console-log-level=error -c -s 16 -k 1M https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF/resolve/main/mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf -d /content/text-generation-webui/models -o mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf
 
 # uncomment if you want to use local files
-COPY mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf /content/text-generation-webui/models/mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf
+#COPY mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf /content/text-generation-webui/models/mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf
 #COPY text_2.pt /root/.cache/suno/bark_v0/
 #COPY fine_2.pt /root/.cache/suno/bark_v0/
 #COPY coarse_2.pt /root/.cache/suno/bark_v0/
